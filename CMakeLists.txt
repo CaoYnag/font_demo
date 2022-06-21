@@ -31,6 +31,7 @@ list(APPEND FC_DEP_LIBS ${GTH2_LIBRARIES})
 list(APPEND FC_DEP_LIBS spes png jpeg xcb pthread)
 
 add_subdirectory(ft_exp2)
+add_subdirectory(ft_exp5)
 add_subdirectory(ft1)
 add_subdirectory(ft2)
 add_subdirectory(g2n)
