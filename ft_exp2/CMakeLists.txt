@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(ft2)
+project(ft_exp2)
 
 set(SRC
     ${PROJECT_SOURCE_DIR}/main.cpp
