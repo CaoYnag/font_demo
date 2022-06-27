@@ -205,7 +205,32 @@ OutlinePrinter::OutlinePrinter(const char *filename)
   m_xMin(0),
   m_yMin(0),
   m_width(0),
-  m_height(0)  PrintSVG();
+  m_height(0)
+{
+  // Empty body.
+}
+
+
+int
+OutlinePrinter::Run(const char *symbol)
+{
+  LoadGlyph(symbol);
+
+  // Check whether outline exists.
+  bool outlineExists = OutlineExists();
+
+  if (!outlineExists) // Outline doesn't exist.
+    throw runtime_error("Outline check failed.\n"
+                        "Please, inspect your font file or try another one,"
+                        " for example LiberationSerif-Bold.ttf");
+
+  FlipOutline();
+
+  ExtractOutline();
+
+  ComputeViewBox();
+
+  PrintSVG();
 
   return 0;
 }
@@ -228,6 +253,31 @@ OutlinePrinter::LoadGlyph(const char *symbol) const
     throw runtime_error("Couldn't load the glyph: FT_Load_Glyph() failed");
 }
 
+
+// While working on this example, we found fonts with no outlines for
+// printable characters such as `A', i.e., `outline.n_contours' and
+// `outline.n_points' were zero.  FT_Outline_Check() returned `true'.
+// FT_Outline_Decompose() also returned `true' without walking the outline.
+// That is, we had no way of knowing whether the outline existed and could
+// be (or was) decomposed.  Therefore, we implemented this workaround to
+// check whether the outline does exist and can be decomposed.
+bool
+OutlinePrinter::OutlineExists() const
+{
+  FT_Face face = m_face;
+  FT_GlyphSlot slot = face->glyph;
+  FT_Outline &outline = slot->outline;
+
+  if (slot->format != FT_GLYPH_FORMAT_OUTLINE)
+    return false; // Should never happen.  Just an extra check.
+
+  if (outline.n_contours <= 0 || outline.n_points <= 0)
+    return false; // Can happen for some font files.
+
+  FT_Error error = FT_Outline_Check(&outline);
+
+  return error == 0;
+}
 
 
 // This function flips outline around x-axis. We need it because
@@ -438,6 +488,7 @@ main(int argc,
   catch (const exception &e)
   {
     cerr << "Error: " << e.what() << endl;
+
     status = 3;
   }
 
