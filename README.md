@@ -1,6 +1,7 @@
 ## Characters
 |:---:|:---:|
 |囧|56e7|
+
 ## ft1
 freetype demo1
 

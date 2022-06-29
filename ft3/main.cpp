@@ -69,8 +69,8 @@ shared_ptr<image_t> render(FT_Face face, long code)
 
 	err = FT_Load_Glyph(face, idx, FT_LOAD_DEFAULT);
 	err = FT_Render_Glyph(face->glyph, FT_RENDER_MODE_NORMAL);
-	if (!err)
-		rslt = as_image2(face->glyph->bitmap);
+	if (err) printf("failed render[0x%d] with face %s %s\n", code, face->family_name, face->style_name);
+	else rslt = as_image2(face->glyph->bitmap);
 	return rslt;
 }
 
@@ -127,7 +127,7 @@ int main(int argc, char** argv)
 {
 	if (argc < 4)
 	{
-		fprintf(stderr, "ft2 font code output");
+		fprintf(stderr, "ft3 font code output");
 		return 1;
 	}
 	string font = argv[1];
