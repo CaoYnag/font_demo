@@ -103,7 +103,10 @@ shared_ptr<im_buff> transformRasterToSDF(shared_ptr<im_buff> inp, double radius,
 
 int main(int argc, char** argv)
 {
-    if(argc < 2) return 1;
+    if(argc < 2) {
+        printf("tiny_sdf inp [rad] [cutoff]");
+        return 1;
+    }
     double rad = 8., cutoff = .25;
     if(argc > 2) rad = atof(argv[2]);
     if(argc > 3) cutoff = atof(argv[3]);

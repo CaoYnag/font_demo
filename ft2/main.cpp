@@ -105,17 +105,20 @@ int main(int argc, char** argv)
 {
 	if (argc < 4)
 	{
-		fprintf(stderr, "ft2 font code output");
+		fprintf(stderr, "ft2 font output code...");
 		return 1;
 	}
 	string font = argv[1];
+	string out = argv[2];
 	long code;
-	string out = argv[3];
-	sscanf(argv[2], "%lx", &code);
-
-	printf("using font [%s] render [0x%lx] to [%s]\n", font.c_str(), code, out.c_str());
-	
-	auto im = render(font, code);
-	write_image(im, out);
+	char buff[256];
+	for(int i = 3; i < argc; ++i){
+		sscanf(argv[i], "%lx", &code);
+		sprintf(buff, "%s.%lx.png", out.c_str(), code);
+		printf("using font [%s] render [0x%lx] to [%s]\n", font.c_str(), code, buff);
+		
+		auto im = render(font, code);
+		write_image(im, buff);
+	}
     return 0;
 }

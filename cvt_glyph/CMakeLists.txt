@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(ft1)
+project(cvt_glyph)
 
 if(WIN32)
 	if($ENV{LIB_BASE})
@@ -23,9 +23,4 @@ set(SRC
 )
 
 add_executable(${PROJECT_NAME} ${SRC})
-if(WIN32)
-	target_link_libraries(curve OpenGL32 glu32 glew32 glut_mocks)
-endif()
-if(UNIX)
-	target_link_libraries(curve GL GLU glut pthread xcb)
-endif()
+target_link_libraries(${PROJECT_NAME} ${FC_DEP_LIBS})

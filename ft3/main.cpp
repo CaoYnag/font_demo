@@ -85,7 +85,7 @@ void render_and_write(long code, const string& output)
 	for(auto p : faces){
 		auto face = p.second->res;
 		char buff[256];
-		sprintf(buff, "%s_%s %s.png", output.c_str(), face->family_name, face->style_name);
+		sprintf(buff, "%s.%s%s.png", output.c_str(), face->family_name, face->style_name);
 		render_and_write(face, code, buff);
 	}
 }
@@ -127,22 +127,25 @@ int main(int argc, char** argv)
 {
 	if (argc < 4)
 	{
-		fprintf(stderr, "ft3 font code output");
+		fprintf(stderr, "ft3 font output code...");
 		return 1;
 	}
 	string font = argv[1];
-	long code;
-	string out = argv[3];
-	sscanf(argv[2], "%lx", &code);
-
-	printf("using font [%s] render [0x%lx] to [%s]\n", font.c_str(), code, out.c_str());
-
 	if(!load_face(font))
 	{
 		fprintf(stderr, "failed init lib or load font face\n");
 		return 1;
 	}
-	
-	render_and_write(code, out);
+
+	string out = argv[2];
+	long code;
+	char buff[256];
+	for(int i = 3; i < argc; ++i){
+		sscanf(argv[i], "%lx", &code);
+		sprintf(buff, "%s.%lx", out.c_str(), code);
+		printf("using font [%s] render [0x%lx] to [%s]\n", font.c_str(), code, buff);
+
+		render_and_write(code, buff);
+	}
     return 0;
 }
