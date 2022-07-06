@@ -47,3 +47,14 @@ BITMAP INFO:
 origin (3, 25)
 size: (12, 25) pitch 12 num grey: 256
 ```
+
+## g2n
+
+## cvt_glyph
+convert glyphs to picture.
+glyph file format must be `id_w_h_l_t_a_imw_imh`
+
+Usage:
+```shell
+cvt_glyph in_dir out_dir
+```
