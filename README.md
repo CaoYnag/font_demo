@@ -48,6 +48,11 @@ origin (3, 25)
 size: (12, 25) pitch 12 num grey: 256
 ```
 
+## ft5
+load multi font file of same font family.
+
+first copy all `NotoSan*Regular.ttf`, got `176` files.
+
 ## g2n
 
 ## cvt_glyph
